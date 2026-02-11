@@ -34,7 +34,8 @@ module.exports = {
   plugins: [
     new VueLoaderPlugin(),
     new webpack.DefinePlugin({
-      'process.env.VUE_APP_API_BASE': JSON.stringify(process.env.VUE_APP_API_BASE || '')
+      'process.env.VUE_APP_API_BASE': JSON.stringify(process.env.VUE_APP_API_BASE || ''),
+      'process.env.VUE_APP_COUNTRY': JSON.stringify(process.env.VUE_APP_COUNTRY || '')
     })
   ],
   stats: 'errors-warnings'

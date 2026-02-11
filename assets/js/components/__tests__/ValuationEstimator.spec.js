@@ -8,6 +8,7 @@ describe('ValuationEstimator', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     delete process.env.VUE_APP_API_BASE;
+    delete process.env.VUE_APP_COUNTRY;
   });
 
   it('uses local API endpoint by default and stores valuation result', async () => {
@@ -23,7 +24,8 @@ describe('ValuationEstimator', () => {
       form: {
         brand: 'Zara',
         category: 'dress',
-        condition: 'good'
+        condition: 'good',
+        country: 'ES'
       }
     });
 
@@ -34,7 +36,8 @@ describe('ValuationEstimator', () => {
       {
         brand: 'Zara',
         category: 'dress',
-        condition: 'good'
+        condition: 'good',
+        country: 'ES'
       },
       expect.objectContaining({
         headers: expect.objectContaining({ 'Content-Type': 'application/json' })
@@ -54,7 +57,8 @@ describe('ValuationEstimator', () => {
       form: {
         brand: 'Mango',
         category: 'dress',
-        condition: 'good'
+        condition: 'good',
+        country: 'ES'
       }
     });
 
@@ -95,7 +99,8 @@ describe('ValuationEstimator', () => {
       form: {
         brand: 'Zara',
         category: 'dress',
-        condition: 'good'
+        condition: 'good',
+        country: 'ES'
       }
     });
 
@@ -110,5 +115,30 @@ describe('ValuationEstimator', () => {
     await wrapper.vm.$nextTick();
 
     expect(button.attributes('disabled')).toBeUndefined();
+  });
+
+  it('uses configured storefront country when VUE_APP_COUNTRY is provided', async () => {
+    process.env.VUE_APP_COUNTRY = 'fr';
+    axios.post.mockResolvedValue({ data: { estimatedPrice: 10, basePrice: 8, currency: 'EUR' } });
+
+    const wrapper = mount(ValuationEstimator);
+    await wrapper.setData({
+      form: {
+        brand: 'Mango',
+        category: 'dress',
+        condition: 'good',
+        country: wrapper.vm.defaultCountry()
+      }
+    });
+
+    await wrapper.vm.submit();
+
+    expect(axios.post).toHaveBeenCalledWith(
+      '/api/v1/valuation/estimate',
+      expect.objectContaining({
+        country: 'FR'
+      }),
+      expect.any(Object)
+    );
   });
 });

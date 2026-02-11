@@ -71,11 +71,18 @@ export default {
       form: {
         brand: '',
         category: '',
-        condition: 'good'
+        condition: 'good',
+        country: this.defaultCountry()
       }
     };
   },
   methods: {
+    defaultCountry() {
+      const country = process.env.VUE_APP_COUNTRY
+        ? String(process.env.VUE_APP_COUNTRY).toUpperCase()
+        : 'ES';
+      return /^[A-Z]{2}$/.test(country) ? country : 'ES';
+    },
     onFormChange() {
       this.result = null;
       this.error = '';

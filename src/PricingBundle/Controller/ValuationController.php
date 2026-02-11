@@ -33,6 +33,7 @@ final class ValuationController
         $brand = isset($payload['brand']) ? trim((string) $payload['brand']) : '';
         $category = isset($payload['category']) ? trim((string) $payload['category']) : '';
         $condition = isset($payload['condition']) ? strtolower(trim((string) $payload['condition'])) : '';
+        $country = isset($payload['country']) ? strtoupper(trim((string) $payload['country'])) : 'ES';
 
         $validationErrors = [];
         if ($brand === '') {
@@ -50,6 +51,10 @@ final class ValuationController
             );
         }
 
+        if (!preg_match('/^[A-Z]{2}$/', $country)) {
+            $validationErrors['country'] = 'country must be an ISO-3166 alpha-2 code (e.g. ES, FR).';
+        }
+
         if ($validationErrors !== []) {
             return new JsonResponse([
                 'error' => 'Validation failed.',
@@ -57,7 +62,7 @@ final class ValuationController
             ], 422);
         }
 
-        $valuation = $this->valuationService->estimate($brand, $category, $condition);
+        $valuation = $this->valuationService->estimate($brand, $category, $condition, $country);
 
         return new JsonResponse($valuation, 200);
     }

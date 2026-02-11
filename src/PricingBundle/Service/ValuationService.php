@@ -28,7 +28,7 @@ final class ValuationService
     /**
      * @return array<string, mixed>
      */
-    public function estimate(string $brand, string $category, string $condition): array
+    public function estimate(string $brand, string $category, string $condition, string $country = 'ES'): array
     {
         $basePrice = $this->categoryPricingRepository->getBasePriceForCategory($category);
 
@@ -36,6 +36,7 @@ final class ValuationService
             'brand' => $brand,
             'category' => $category,
             'condition' => $condition,
+            'country' => strtoupper(trim($country)),
         ];
 
         $estimatedPrice = $basePrice;
@@ -53,6 +54,7 @@ final class ValuationService
             'brand' => $brand,
             'category' => $category,
             'condition' => $condition,
+            'country' => strtoupper(trim($country)),
             'basePrice' => round($basePrice, 2),
             'estimatedPrice' => $estimatedPrice,
             'currency' => 'EUR',
