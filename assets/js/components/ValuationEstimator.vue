@@ -9,6 +9,7 @@
           <span class="valuation__label">Brand</span>
           <input
             v-model.trim="form.brand"
+            @input="onFormChange"
             class="valuation__input"
             type="text"
             placeholder="e.g. Zara"
@@ -20,6 +21,7 @@
           <span class="valuation__label">Category</span>
           <input
             v-model.trim="form.category"
+            @input="onFormChange"
             class="valuation__input"
             type="text"
             placeholder="e.g. dress"
@@ -29,7 +31,7 @@
 
         <label class="valuation__field">
           <span class="valuation__label">Condition</span>
-          <select v-model="form.condition" class="valuation__input" required>
+          <select v-model="form.condition" class="valuation__input" required @change="onFormChange">
             <option value="new">new</option>
             <option value="good">good</option>
             <option value="fair">fair</option>
@@ -74,13 +76,25 @@ export default {
     };
   },
   methods: {
+    onFormChange() {
+      this.result = null;
+      this.error = '';
+    },
+    buildEstimateEndpoint() {
+      const base = process.env.VUE_APP_API_BASE
+        ? process.env.VUE_APP_API_BASE.replace(/\/+$/, '')
+        : '';
+
+      return base ? `${base}/api/v1/valuation/estimate` : '/api/v1/valuation/estimate';
+    },
     async submit() {
       this.loading = true;
       this.error = '';
       this.result = null;
 
       try {
-        const response = await axios.post('/api/v1/valuation/estimate', this.form, {
+        const endpoint = this.buildEstimateEndpoint();
+        const response = await axios.post(endpoint, this.form, {
           headers: { 'Content-Type': 'application/json' }
         });
         this.result = response.data;

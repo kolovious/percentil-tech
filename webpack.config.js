@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const { VueLoaderPlugin } = require('vue-loader');
 
 module.exports = {
@@ -30,6 +31,11 @@ module.exports = {
     },
     extensions: ['.js', '.vue', '.json']
   },
-  plugins: [new VueLoaderPlugin()],
+  plugins: [
+    new VueLoaderPlugin(),
+    new webpack.DefinePlugin({
+      'process.env.VUE_APP_API_BASE': JSON.stringify(process.env.VUE_APP_API_BASE || '')
+    })
+  ],
   stats: 'errors-warnings'
 };
