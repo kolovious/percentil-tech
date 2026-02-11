@@ -26,5 +26,18 @@ services:
         resource: '../src/Controller/'
         tags: ['controller.service_arguments']
 
+    App\PricingBundle\Controller\:
+        resource: '../src/PricingBundle/Controller/'
+        tags: ['controller.service_arguments']
+
+    App\PricingBundle\Repository\CategoryPricingRepository: '@App\PricingBundle\Repository\InMemoryCategoryPricingRepository'
+
     # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    App\PricingBundle\Rule\:
+        resource: '../src/PricingBundle/Rule/'
+        tags: ['app.pricing_bundle.valuation_rule']
+
+    # Fill the strategy pattern with tagged services
+    App\PricingBundle\Service\ValuationService:
+        arguments:
+            $rules: !tagged_iterator app.pricing_bundle.valuation_rule

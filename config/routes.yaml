@@ -1,3 +1,4 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+pricing_valuation_estimate:
+    path: /api/v1/valuation/estimate
+    controller: App\PricingBundle\Controller\ValuationController
+    methods: [POST]
