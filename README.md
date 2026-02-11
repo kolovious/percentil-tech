@@ -1,39 +1,38 @@
 # Percentil Technical Test
 
-## 1 - Build PHP environment
+## 1 - Start everything (API + frontend)
 ```bash
-make build
+make all
 ```
 
-## 2 - Install PHP dependencies
-```bash
-make install
-```
-
-## 3 - Install frontend dependencies (Docker Node service)
-```bash
-make npm-install
-```
-
-## 4 - Build frontend assets
-```bash
-make front-build
-```
-
-## 5 - Start the test environment
-```bash
-make up
-```
-
-## 6 - Open the frontend
+## 2 - Open the frontend
 ```text
 http://localhost:8000
 ```
 
-## 7 - Call the valuator endpoint
+You can test the valuation flow directly from the frontend form or by calling the API via `curl`.
+
+## 3 - Test API (success case)
 ```bash
 curl -i -X POST http://localhost:8000/api/v1/valuation/estimate \
   -H "Content-Type: application/json" \
   -H "Accept: application/json" \
-  -d '{"brand":"Zara","category":"dress","condition":"good"}'
+  -d '{"brand":"Zara","category":"dress","condition":"good","country":"ES"}'
+```
+
+## 4 - Test API validation error (missing parameter)
+Example: missing `brand` should return `422 Validation failed`.
+
+```bash
+curl -i -X POST http://localhost:8000/api/v1/valuation/estimate \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json" \
+  -d '{"category":"dress","condition":"good","country":"ES"}'
+```
+
+## 5 - Optional useful commands
+```bash
+make php-test
+make front-test
+make down
 ```
