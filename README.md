@@ -36,3 +36,8 @@ make php-test
 make front-test
 make down
 ```
+
+## Technical decisions for this exercise
+- The app runs without Nginx in front of PHP-FPM to keep the setup simpler and faster for the technical test.
+- Symfony was set up in the required 4.4 line to match the exercise constraints.
+- Vue.js 2 was added for the frontend component layer, with Webpack support to compile Vue SFCs and SCSS.
