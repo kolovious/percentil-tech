@@ -1,21 +1,36 @@
 # Percentil Technical Test
 
-## 1 - Build the test environment
+## 1 - Build PHP environment
 ```bash
 make build
 ```
 
-## 2 - Install dependencies
+## 2 - Install PHP dependencies
 ```bash
 make install
 ```
 
-## 3 - Start the test environment
+## 3 - Install frontend dependencies (Docker Node service)
+```bash
+make npm-install
+```
+
+## 4 - Build frontend assets
+```bash
+make front-build
+```
+
+## 5 - Start the test environment
 ```bash
 make up
 ```
 
-## 4 - Call the valuator endpoint
+## 6 - Open the frontend
+```text
+http://localhost:8000
+```
+
+## 7 - Call the valuator endpoint
 ```bash
 curl -i -X POST http://localhost:8000/api/v1/valuation/estimate \
   -H "Content-Type: application/json" \

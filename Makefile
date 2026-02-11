@@ -1,7 +1,7 @@
 LOCAL_UID := $(shell id -u)
 LOCAL_GID := $(shell id -g)
 
-.PHONY: build install up down shell fix-perms phpv composerv
+.PHONY: build install up down shell fix-perms phpv composerv npm-install front-build front-dev
 
 build:
 	LOCAL_UID=$(LOCAL_UID) LOCAL_GID=$(LOCAL_GID) docker compose build app
@@ -26,3 +26,12 @@ phpv:
 
 composerv:
 	docker compose run --rm app composer --version
+
+npm-install:
+	LOCAL_UID=$(LOCAL_UID) LOCAL_GID=$(LOCAL_GID) docker compose run --rm node npm install
+
+front-build:
+	LOCAL_UID=$(LOCAL_UID) LOCAL_GID=$(LOCAL_GID) docker compose run --rm node npm run build
+
+front-dev:
+	LOCAL_UID=$(LOCAL_UID) LOCAL_GID=$(LOCAL_GID) docker compose run --rm node npm run dev

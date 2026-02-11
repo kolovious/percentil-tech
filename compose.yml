@@ -11,3 +11,10 @@ services:
     ports:
       - "8000:8000"
     command: php -S 0.0.0.0:8000 -t public
+
+  node:
+    image: node:18-alpine
+    user: "${LOCAL_UID:-1000}:${LOCAL_GID:-1000}"
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html

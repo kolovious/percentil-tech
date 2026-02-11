@@ -1,3 +1,8 @@
+home:
+    path: /
+    controller: App\Controller\HomeController
+    methods: [GET]
+
 pricing_valuation_estimate:
     path: /api/v1/valuation/estimate
     controller: App\PricingBundle\Controller\ValuationController
