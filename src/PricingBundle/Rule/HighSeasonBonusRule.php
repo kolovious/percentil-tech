@@ -8,12 +8,17 @@ final class HighSeasonBonusRule implements ValuationRule
 {
     private const HIGH_SEASON_MONTHS = [9, 10, 11, 12];
     private const BONUS_AMOUNT = 3.0;
+    /** @var int */
+    private $currentMonth;
+
+    public function __construct(?int $currentMonth = null)
+    {
+        $this->currentMonth = $currentMonth ?: (int) date('n');
+    }
 
     public function shouldApply(array $context): bool
     {
-        $month = (int) date('n');
-
-        return \in_array($month, self::HIGH_SEASON_MONTHS, true);
+        return \in_array($this->currentMonth, self::HIGH_SEASON_MONTHS, true);
     }
 
     public function apply(float $currentPrice, array $context): float
