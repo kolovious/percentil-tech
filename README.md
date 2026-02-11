@@ -37,6 +37,16 @@ make front-test
 make down
 ```
 
+## Environment variables
+- This repository includes only development-safe defaults.
+- Do not commit real secrets in `.env` files in public repositories.
+- Use `.env.local` for local overrides (already gitignored).
+- A safe template is available in `.env.example`.
+
+```bash
+cp .env.example .env.local
+```
+
 ## Technical decisions for this exercise
 - The app runs without Nginx in front of PHP-FPM to keep the setup simpler and faster for the technical test.
 - Symfony was set up in the required 4.4 line to match the exercise constraints.
